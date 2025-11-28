@@ -171,6 +171,49 @@ open maps/ukraine_russia_map.html
 start maps/ukraine_russia_map.html
 ```
 
+## 🌐 Deploy as a Website (GitHub Pages)
+
+You can host your generated maps as a public website using GitHub Pages!
+
+### Quick Deploy
+
+```bash
+# 1. Generate your maps
+python main.py ukraine_russia
+python main.py israel_iran
+python main.py china_taiwan
+python main.py us_venezuela
+
+# 2. Copy maps to docs folder
+./deploy_to_pages.sh
+
+# 3. Push to GitHub
+git add docs/
+git commit -m "Deploy maps to GitHub Pages"
+git push origin main
+```
+
+### Enable GitHub Pages
+
+1. Go to your repository on GitHub
+2. Click **Settings** → **Pages**
+3. Under **Source**:
+   - Branch: `main`
+   - Folder: `/docs`
+4. Click **Save**
+
+Your website will be live at: `https://yourusername.github.io/Twitter-map/`
+
+### Features of the Website
+
+- ✅ Beautiful dashboard interface
+- ✅ View all 4 conflict region maps
+- ✅ Interactive map viewer
+- ✅ No server required (static HTML)
+- ✅ Free hosting on GitHub
+
+**Note:** The website displays pre-generated maps. To update with fresh data, regenerate maps locally and re-deploy.
+
 ## How It Works
 
 ### 1. Tweet Collection
