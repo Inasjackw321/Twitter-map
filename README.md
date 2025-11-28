@@ -32,10 +32,14 @@ Twitter-map/
 │   └── us_venezuela.json
 ├── data/                       # Collected tweet data (created on first run)
 ├── maps/                       # Generated HTML maps (created on first run)
+├── index.html                 # Web dashboard interface
+├── serve.py                   # Simple web server to view dashboard
 ├── twitter_collector.py        # Twitter API data collection module
 ├── geolocation.py             # Geolocation extraction and geocoding
 ├── map_visualizer.py          # Map creation and visualization
 ├── main.py                    # Main script to run everything
+├── setup.sh                   # Quick setup script
+├── run_all.sh                 # Generate all maps at once
 ├── requirements.txt           # Python dependencies
 └── .env                       # API credentials (you need to create this)
 ```
@@ -84,7 +88,31 @@ Twitter-map/
 
 ## Usage
 
-### Basic Usage
+### 🌐 Web Interface (Easiest!)
+
+The quickest way to get started is using the web dashboard:
+
+```bash
+# Start the web server
+python serve.py
+```
+
+This will:
+1. Start a local web server at `http://localhost:8000`
+2. Automatically open the dashboard in your browser
+3. Provide a beautiful interface to:
+   - View all available regions
+   - Generate maps with one click
+   - View maps directly in the browser
+   - Access documentation
+
+**To generate maps from the web interface:**
+1. Click "Copy Command" for any region
+2. Run the command in your terminal
+3. Refresh the web page
+4. Click "View Map" to see your generated map!
+
+### 💻 Command Line Usage
 
 Generate a map for any of the four regions:
 

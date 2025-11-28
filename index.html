@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Conflict Map Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .region-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .region-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .region-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+
+        .region-card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #48bb78;
+        }
+
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .instructions {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 2;
+        }
+
+        .instructions code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #e53e3e;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #48bb78;
+        }
+
+        .feature-item strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-ready { background: #48bb78; }
+        .status-pending { background: #ed8936; }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .map-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+        }
+
+        .map-viewer.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-viewer iframe {
+            width: 90%;
+            height: 90%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .region-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗺️ Twitter Conflict Map Generator</h1>
+            <p class="subtitle">Interactive geolocation mapping for geopolitical conflicts</p>
+        </header>
+
+        <div class="content">
+            <!-- Quick Start Section -->
+            <div class="section">
+                <h2>🚀 Quick Start</h2>
+                <div class="instructions">
+                    <h3>How to Generate Maps:</h3>
+                    <ol>
+                        <li>Open your terminal/command prompt</li>
+                        <li>Run setup (first time only): <code>./setup.sh</code></li>
+                        <li>Add your Twitter API credentials to <code>.env</code> file</li>
+                        <li>Generate a map: <code>python main.py ukraine_russia</code></li>
+                        <li>Refresh this page and click "View Map" below!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Available Maps Section -->
+            <div class="section">
+                <h2>🌍 Available Conflict Regions</h2>
+                <div class="region-grid">
+                    <!-- Ukraine-Russia -->
+                    <div class="region-card">
+                        <h3><span class="emoji">🇺🇦</span>Ukraine-Russia</h3>
+                        <p>Track Ukraine-Russia conflict related tweets with geolocation data from the region.</p>
+                        <div class="btn-group">
+                            <button class="btn" onclick="openMap('ukraine_russia')">View Map</button>
+                            <button class="btn btn-secondary" onclick="copyCommand('ukraine_russia')">Copy Command</button>
+                        </div>
+                    </div>
+
+                    <!-- Israel-Iran -->
+                    <div class="region-card">
+                        <h3><span class="emoji">🇮🇱</span>Israel-Iran Axis</h3>
+                        <p>Monitor Israel-Iran axis tensions and related activity across the Middle East.</p>
+                        <div class="btn-group">
+                            <button class="btn" onclick="openMap('israel_iran')">View Map</button>
+                            <button class="btn btn-secondary" onclick="copyCommand('israel_iran')">Copy Command</button>
+                        </div>
+                    </div>
+
+                    <!-- China-Taiwan -->
+                    <div class="region-card">
+                        <h3><span class="emoji">🇹🇼</span>China-Taiwan</h3>
+                        <p>Track China-Taiwan relations and tensions in the Taiwan Strait region.</p>
+                        <div class="btn-group">
+                            <button class="btn" onclick="openMap('china_taiwan')">View Map</button>
+                            <button class="btn btn-secondary" onclick="copyCommand('china_taiwan')">Copy Command</button>
+                        </div>
+                    </div>
+
+                    <!-- US-Venezuela -->
+                    <div class="region-card">
+                        <h3><span class="emoji">🇻🇪</span>US-Venezuela</h3>
+                        <p>Monitor US-Venezuela relations and tensions in the region.</p>
+                        <div class="btn-group">
+                            <button class="btn" onclick="openMap('us_venezuela')">View Map</button>
+                            <button class="btn btn-secondary" onclick="copyCommand('us_venezuela')">Copy Command</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="section">
+                <h2>✨ Features</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <strong>🐦 Twitter API Integration</strong>
+                        Collects real-time tweets using Twitter API v2
+                    </div>
+                    <div class="feature-item">
+                        <strong>📍 Smart Geolocation</strong>
+                        Extracts locations from tweets using multiple methods
+                    </div>
+                    <div class="feature-item">
+                        <strong>🗺️ Interactive Maps</strong>
+                        Beautiful Folium maps with markers, clustering, and heatmaps
+                    </div>
+                    <div class="feature-item">
+                        <strong>📊 Engagement Metrics</strong>
+                        Color-coded by likes, retweets, and replies
+                    </div>
+                    <div class="feature-item">
+                        <strong>🔍 Text Analysis</strong>
+                        Extracts location mentions from tweet content
+                    </div>
+                    <div class="feature-item">
+                        <strong>⚡ Easy to Use</strong>
+                        Simple CLI commands and pre-configured regions
+                    </div>
+                </div>
+            </div>
+
+            <!-- Command Reference -->
+            <div class="section">
+                <h2>💻 Command Reference</h2>
+                <div class="instructions">
+                    <h3>Common Commands:</h3>
+                    <ul style="list-style: none; line-height: 2;">
+                        <li><code>./setup.sh</code> - Initial setup and install dependencies</li>
+                        <li><code>python main.py ukraine_russia</code> - Generate Ukraine-Russia map</li>
+                        <li><code>python main.py israel_iran --max-tweets 100</code> - Collect 100 tweets</li>
+                        <li><code>python main.py china_taiwan --no-heatmap</code> - Disable heatmap layer</li>
+                        <li><code>./run_all.sh</code> - Generate all 4 maps at once</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Twitter Conflict Map Generator | For Research & Educational Use Only</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Built with Python, Tweepy, Folium, and Geopy</p>
+        </footer>
+    </div>
+
+    <!-- Map Viewer Modal -->
+    <div class="map-viewer" id="mapViewer">
+        <button class="close-btn" onclick="closeMap()">✕ Close</button>
+        <iframe id="mapFrame"></iframe>
+    </div>
+
+    <script>
+        function openMap(region) {
+            const mapPath = `maps/${region}_map.html`;
+            const mapFrame = document.getElementById('mapFrame');
+            const mapViewer = document.getElementById('mapViewer');
+
+            // Check if map exists by trying to load it
+            fetch(mapPath)
+                .then(response => {
+                    if (response.ok) {
+                        mapFrame.src = mapPath;
+                        mapViewer.classList.add('active');
+                    } else {
+                        alert(`Map not found!\n\nTo generate this map, run:\npython main.py ${region}\n\nThen refresh this page.`);
+                    }
+                })
+                .catch(error => {
+                    alert(`Map not found!\n\nTo generate this map, run:\npython main.py ${region}\n\nThen refresh this page.`);
+                });
+        }
+
+        function closeMap() {
+            const mapViewer = document.getElementById('mapViewer');
+            const mapFrame = document.getElementById('mapFrame');
+            mapViewer.classList.remove('active');
+            mapFrame.src = '';
+        }
+
+        function copyCommand(region) {
+            const command = `python main.py ${region}`;
+            navigator.clipboard.writeText(command).then(() => {
+                alert(`Command copied to clipboard!\n\n${command}\n\nNow paste it in your terminal to generate the map.`);
+            }).catch(err => {
+                alert(`Command to run:\n\n${command}\n\nCopy this and run it in your terminal.`);
+            });
+        }
+
+        // Close map viewer with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMap();
+            }
+        });
+
+        // Check which maps are available on page load
+        window.addEventListener('load', () => {
+            const regions = ['ukraine_russia', 'israel_iran', 'china_taiwan', 'us_venezuela'];
+            regions.forEach(region => {
+                fetch(`maps/${region}_map.html`)
+                    .then(response => {
+                        const card = document.querySelector(`.region-card h3:contains('${region}')`);
+                        // Could add visual indicators here
+                    })
+                    .catch(() => {});
+            });
+        });
+    </script>
+</body>
+</html>

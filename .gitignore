@@ -1,7 +1,7 @@
 .env
 *.pyc
 __pycache__/
-*.html
+maps/*.html
 *.csv
 data/
 venv/
