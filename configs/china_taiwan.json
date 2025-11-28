@@ -1,0 +1,25 @@
+{
+  "name": "China-Taiwan",
+  "description": "Tracking China-Taiwan relations and tensions",
+  "keywords": [
+    "Taiwan", "China", "PRC", "ROC", "Taipei", "Beijing",
+    "Xi Jinping", "TSMC", "Strait", "PLA", "PLAAF",
+    "One China", "Taiwan Strait", "Kinmen", "Matsu", "Penghu"
+  ],
+  "hashtags": [
+    "#Taiwan", "#China", "#TaiwanStrait", "#ChinaTaiwan",
+    "#TaiwanChina", "#PRC", "#ROC", "#Taipei", "#XiJinping",
+    "#TaiwanCrisis", "#OneChinaPolicy"
+  ],
+  "geographic_bounds": {
+    "min_lat": 21.5,
+    "max_lat": 26.0,
+    "min_lon": 118.0,
+    "max_lon": 122.5
+  },
+  "center_coords": {
+    "lat": 23.6978,
+    "lon": 120.9605
+  },
+  "zoom_level": 7
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Ukraine-Russia Conflict",
+  "description": "Tracking Ukraine-Russia conflict related tweets",
+  "keywords": [
+    "Ukraine", "Russia", "Kyiv", "Kiev", "Donbas", "Crimea",
+    "Zelensky", "Putin", "Wagner", "Bakhmut", "Donetsk", "Luhansk",
+    "Mariupol", "Kherson", "Zaporizhzhia", "NATO", "UAF", "RuAF"
+  ],
+  "hashtags": [
+    "#Ukraine", "#Russia", "#UkraineWar", "#StandWithUkraine",
+    "#UkraineRussiaWar", "#UkraineCrisis", "#Kyiv", "#Putin",
+    "#Zelensky", "#UkraineConflict", "#RussiaUkraineWar"
+  ],
+  "geographic_bounds": {
+    "min_lat": 44.0,
+    "max_lat": 52.5,
+    "min_lon": 22.0,
+    "max_lon": 40.5
+  },
+  "center_coords": {
+    "lat": 48.379433,
+    "lon": 31.16558
+  },
+  "zoom_level": 6
+}

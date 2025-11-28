@@ -1,0 +1,25 @@
+{
+  "name": "Israel-Iran Axis",
+  "description": "Tracking Israel-Iran axis conflict related tweets",
+  "keywords": [
+    "Israel", "Iran", "Gaza", "Hamas", "Hezbollah", "Lebanon",
+    "Tehran", "Jerusalem", "Tel Aviv", "Netanyahu", "IRGC",
+    "IDF", "Syria", "West Bank", "Rafah", "Yemen", "Houthis"
+  ],
+  "hashtags": [
+    "#Israel", "#Iran", "#Gaza", "#Hamas", "#Hezbollah",
+    "#GazaWar", "#IsraelIran", "#MiddleEast", "#IDF",
+    "#Lebanon", "#Palestine", "#IranIsrael"
+  ],
+  "geographic_bounds": {
+    "min_lat": 15.0,
+    "max_lat": 42.0,
+    "min_lon": 34.0,
+    "max_lon": 63.0
+  },
+  "center_coords": {
+    "lat": 31.0461,
+    "lon": 34.8516
+  },
+  "zoom_level": 5
+}

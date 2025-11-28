@@ -1,0 +1,9 @@
+.env
+*.pyc
+__pycache__/
+*.html
+*.csv
+data/
+venv/
+.vscode/
+.idea/

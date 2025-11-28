@@ -1,0 +1,25 @@
+{
+  "name": "US-Venezuela",
+  "description": "Tracking US-Venezuela relations and tensions",
+  "keywords": [
+    "Venezuela", "USA", "Maduro", "Caracas", "Guaido",
+    "sanctions", "oil", "PDVSA", "migration", "border",
+    "Essequibo", "Guyana", "Colombia", "Brazil"
+  ],
+  "hashtags": [
+    "#Venezuela", "#USA", "#Maduro", "#VenezuelaCrisis",
+    "#USVenezuela", "#Caracas", "#VenezuelaLibre",
+    "#sanctions", "#migration", "#SOS Venezuela"
+  ],
+  "geographic_bounds": {
+    "min_lat": -5.0,
+    "max_lat": 12.5,
+    "min_lon": -73.5,
+    "max_lon": -59.5
+  },
+  "center_coords": {
+    "lat": 6.4238,
+    "lon": -66.5897
+  },
+  "zoom_level": 6
+}
